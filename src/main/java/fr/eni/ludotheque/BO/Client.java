@@ -24,7 +24,7 @@ public class Client {
     @Column(unique = true, nullable = false, length = 50)
     private String email;
 
-    @Transient
-    private int no_telephone;
+    @Column(unique = true, nullable = false, length = 10)
+    private String no_telephone;
 
 }
