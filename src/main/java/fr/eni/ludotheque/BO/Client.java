@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Table(name="CLIENT_OTM")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -23,6 +24,10 @@ public class Client {
 
     @Column(unique = true, nullable = false, length = 50)
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "client_no_client")
+    private Adresse adresse;
 
     @Column(unique = true, nullable = false, length = 10)
     private String no_telephone;

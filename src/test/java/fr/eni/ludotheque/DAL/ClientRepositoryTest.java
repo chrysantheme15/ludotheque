@@ -1,5 +1,6 @@
 package fr.eni.ludotheque.DAL;
 
+import fr.eni.ludotheque.BO.Adresse;
 import fr.eni.ludotheque.BO.Client;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -14,15 +15,27 @@ public class ClientRepositoryTest {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private AdresseRepository adresseRepository;
+
     @Test
     @Transactional
     public void testInsertClientRepository() {
         // AAA
         // Arrange :  preparation du test
+
+        Adresse adresse = new Adresse();
+        adresse.setRue("10 rue de Brest");
+        adresse.setCode_postal("29200");
+        adresse.setVille("Brest");
+
+        adresseRepository.save(adresse);
+
         Client client = new Client();
         client.setNom("Chrys");
         client.setPrenom("Sisi");
         client.setEmail("Chrys@gmail.com");
+        client.setAdresse(adresse);
         client.setNo_telephone("0123456789");
 
 
@@ -35,6 +48,8 @@ public class ClientRepositoryTest {
         assertThat(clientBD.getNom()).isNotNull();
         assertThat(clientBD.getPrenom()).isNotNull();
         assertThat(clientBD.getEmail()).isNotNull();
+        assertThat(clientBD.getAdresse()).isNotNull();
+        assertThat(clientBD.getAdresse().getVille()).isEqualTo("Quimper");
         assertThat(clientBD.getNo_telephone()).isNotNull();
     }
 }
