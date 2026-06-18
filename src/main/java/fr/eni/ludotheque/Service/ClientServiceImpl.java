@@ -5,6 +5,8 @@ import fr.eni.ludotheque.DAL.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientServiceImpl implements ClientService {
 
@@ -19,5 +21,11 @@ public class ClientServiceImpl implements ClientService {
     public void ajouterClient(Client client) {
         clientRepository.save(client);
     }
+
+    @Override
+    public List<Client> rechercherParDebutNom(String nom) {
+        return List.of();
+    }
+
 }
 

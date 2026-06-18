@@ -28,10 +28,10 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setNom("RAZAFI");
         client.setPrenom("chrys");
-        client.setEmail("hrysrazafi@gmail.com");
+        client.setEmail("chrysrazafi@gmail.com");
         client.setAdresse(adresse);
         client.setNo_telephone("0123456789");
-        client.setNo_telephone("0101010101");
+
 
         //Act (Appel de la méthode à vérifier)
         clientService.ajouterClient(client);
