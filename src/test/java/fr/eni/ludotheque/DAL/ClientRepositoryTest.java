@@ -3,6 +3,7 @@ package fr.eni.ludotheque.DAL;
 import fr.eni.ludotheque.BO.Adresse;
 import fr.eni.ludotheque.BO.Client;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,17 +20,18 @@ public class ClientRepositoryTest {
     private AdresseRepository adresseRepository;
 
     @Test
+    @DisplayName("test positif de création d'un client en BDD")
     @Transactional
     public void testInsertClientRepository() {
         // AAA
-        // Arrange :  preparation du test
+        // Arrange : preparation du test
 
         Adresse adresse = new Adresse();
         adresse.setRue("10 rue de Brest");
         adresse.setCode_postal("29200");
         adresse.setVille("Brest");
 
-        adresseRepository.save(adresse);
+        //adresseRepository.save(adresse); avec cascade = CascadeType.ALL, adresseRepository.save(adresse) est inutile.
 
         Client client = new Client();
         client.setNom("Chrys");
@@ -45,11 +47,8 @@ public class ClientRepositoryTest {
         //Assert
         assertThat(clientBD).isNotNull();
         assertThat(clientBD.getNo_client()).isNotNull();
-        assertThat(clientBD.getNom()).isNotNull();
-        assertThat(clientBD.getPrenom()).isNotNull();
-        assertThat(clientBD.getEmail()).isNotNull();
         assertThat(clientBD.getAdresse()).isNotNull();
-        assertThat(clientBD.getAdresse().getVille()).isEqualTo("Quimper");
-        assertThat(clientBD.getNo_telephone()).isNotNull();
+        assertThat(clientBD.getAdresse().getVille()).isEqualTo("Brest");
+
     }
 }

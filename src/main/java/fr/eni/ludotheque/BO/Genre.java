@@ -2,26 +2,27 @@ package fr.eni.ludotheque.BO;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-
-@Entity
 @AllArgsConstructor
-public class Adresse {
+@Entity
+@Table(name= "Genre")
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    private int no_adresse;
+    @Column(name = "no_genre")
+    private int no_genre;
 
     @Column( nullable = false, length = 255)
-    private String rue;
+    private String libelle;
 
-    @Column( nullable = false, length = 5)
-    private String code_postal;
+    @ManyToMany(mappedBy = "genres")
+    private List<Jeu> jeux= new ArrayList<>();
 
-    @Column( nullable = false, length = 100)
-    private String ville;
 }
