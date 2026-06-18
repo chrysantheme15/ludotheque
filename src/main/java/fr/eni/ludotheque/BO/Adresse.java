@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 @Data
 @RequiredArgsConstructor
-
 @Entity
 @AllArgsConstructor
 public class Adresse {

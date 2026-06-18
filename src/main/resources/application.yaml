@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=LUDOTHEQUE_BD;encrypt=false;trustServerCertificate=true
-    username: sa
-    password: "Pa$$w0rd"
+    username: LUDO_USER
+    password: 'LUDO_PWD123!!'
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
