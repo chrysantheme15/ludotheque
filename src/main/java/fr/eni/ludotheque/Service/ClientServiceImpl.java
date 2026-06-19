@@ -27,5 +27,21 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findByNomStartingWith(nom);
     }
 
+    @Override
+    public void modifierClient(Client client) throws BusinessException {
+        Client clientExistant = clientRepository.findById(client.getNo_client())
+                .orElseThrow(() -> new BusinessException("Client introuvable"));
+
+        clientExistant.setNom(client.getNom());
+        clientExistant.setPrenom(client.getPrenom());
+        clientExistant.setEmail(client.getEmail());
+        clientExistant.setNo_telephone(client.getNo_telephone());
+
+        clientExistant.getAdresse().setRue(client.getAdresse().getRue());
+        clientExistant.getAdresse().setCode_postal(client.getAdresse().getCode_postal());
+        clientExistant.getAdresse().setVille(client.getAdresse().getVille());
+
+        clientRepository.save(clientExistant);
+    }
 }
 

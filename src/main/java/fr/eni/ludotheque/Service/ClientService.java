@@ -21,5 +21,6 @@ public interface ClientService {
     //List<Client> rechercherParDebutNom(@Param("nom") String nom);
 
     //Modification complète d'un client
+    void modifierClient(Client client) throws BusinessException;
 
 }
