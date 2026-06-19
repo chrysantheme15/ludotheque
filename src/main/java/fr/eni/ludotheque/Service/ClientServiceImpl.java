@@ -23,8 +23,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> rechercherParDebutNom(String nom) {
-        return List.of();
+    public List<Client> findByNomStartingWith(String nom) {
+        return clientRepository.findByNomStartingWith(nom);
     }
 
 }

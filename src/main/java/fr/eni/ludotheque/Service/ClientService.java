@@ -9,18 +9,17 @@ import java.util.List;
 
 public interface ClientService {
 
+    //ajouter un client et son adresse
     void ajouterClient(Client client);
 
-    // Création d'une requête paramétrée avec JPQL
-    @Query("SELECT c FROM Client c WHERE c.nom LIKE CONCAT(:nom, '%')")
-    List<Client> rechercherParDebutNom(@Param("nom") String nom);
+    //trouver les clients dont le nom commence par la chaine fournie
+    // Méthodes de requêtes avec mots clefs via Spring Data JPA
+    List<Client> findByNomStartingWith(String nom);
 
-    /**
-     * // Méthodes de requêtes avec mots clefs via Spring Data JPA
-     *         List<Client> clients = clientRepository.findByNomStartingWith("Ch");
-     *
-     *
-     *         // Méthodes de requêtes avec mots clefs via Spring Data JPA
-     *         //List<Client> findByNomStartingWith(String nom);
-     */
+    // Création d'une requête paramétrée avec JPQL
+    //@Query("SELECT c FROM Client c WHERE c.nom LIKE CONCAT(:nom, '%')")
+    //List<Client> rechercherParDebutNom(@Param("nom") String nom);
+
+    //Modification complète d'un client
+
 }

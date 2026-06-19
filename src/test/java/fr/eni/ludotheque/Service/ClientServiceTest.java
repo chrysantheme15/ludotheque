@@ -32,7 +32,6 @@ public class ClientServiceTest {
         client.setAdresse(adresse);
         client.setNo_telephone("0123456789");
 
-
         //Act (Appel de la méthode à vérifier)
         clientService.ajouterClient(client);
 
@@ -41,6 +40,10 @@ public class ClientServiceTest {
         Assertions.assertNotNull(clientBD);
         Assertions.assertEquals(client,  clientBD);
 
+
+    }
+    @Test
+    void testRechercheClientParNom(){
 
     }
 }
