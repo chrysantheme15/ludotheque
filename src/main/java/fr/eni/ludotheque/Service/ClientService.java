@@ -1,16 +1,15 @@
 package fr.eni.ludotheque.Service;
 
 import fr.eni.ludotheque.BO.Client;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Service;
+import fr.eni.ludotheque.dto.ClientDTO;
+import fr.eni.ludotheque.exceptions.BusinessException;
 
 import java.util.List;
 
 public interface ClientService {
 
     //ajouter un client et son adresse
-    void ajouterClient(Client client);
+    Client ajouterClient(ClientDTO clientDto);
 
     //trouver les clients dont le nom commence par la chaine fournie
     // Méthodes de requêtes avec mots clefs via Spring Data JPA
