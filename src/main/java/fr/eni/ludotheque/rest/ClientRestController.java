@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/clients")
 public class ClientRestController {
@@ -86,6 +88,21 @@ public class ClientRestController {
             clientService.modifierAdresse(noClient, adresseDTO);
 
             return ResponseEntity.ok().build();
+
+        } catch (DataNotFound e) {
+
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Client>> trouverClientsParNom(
+            @RequestParam String nom) {
+
+        try {
+
+            return ResponseEntity.ok(
+                    clientService.trouverClientsParNom(nom));
 
         } catch (DataNotFound e) {
 

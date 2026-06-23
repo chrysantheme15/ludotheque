@@ -55,7 +55,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> trouverClientsParNom(String nom) {
-        return List.of();
+        List<Client> clients = clientRepository.findByNomStartsWith(nom);
+
+        if (clients.isEmpty()) {
+            throw new DataNotFound("Client", nom);
+        }
+
+        return clients;
     }
 
     @Override
