@@ -1,6 +1,8 @@
 package fr.eni.ludotheque.rest;
 
 import fr.eni.ludotheque.bo.Client;
+import fr.eni.ludotheque.dto.AdresseDTO;
+import fr.eni.ludotheque.exceptions.DataNotFound;
 import fr.eni.ludotheque.service.ClientService;
 import fr.eni.ludotheque.dto.ClientDTO;
 import fr.eni.ludotheque.exceptions.EmailClientAlreadyExistException;
@@ -71,6 +73,23 @@ public class ClientRestController {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{noClient}/adresse")
+    public ResponseEntity<?> modifierAdresse(
+            @PathVariable Integer noClient,
+            @RequestBody AdresseDTO adresseDTO) {
+
+        try {
+
+            clientService.modifierAdresse(noClient, adresseDTO);
+
+            return ResponseEntity.ok().build();
+
+        } catch (DataNotFound e) {
+
+            return ResponseEntity.notFound().build();
         }
     }
 }
