@@ -1,11 +1,10 @@
 package fr.eni.ludotheque.rest;
 
-import fr.eni.ludotheque.BO.Client;
-import fr.eni.ludotheque.Service.ClientService;
+import fr.eni.ludotheque.bo.Client;
+import fr.eni.ludotheque.service.ClientService;
 import fr.eni.ludotheque.dto.ClientDTO;
 import fr.eni.ludotheque.exceptions.EmailClientAlreadyExistException;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ public class ClientRestController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Client> ajouterClient(@RequestBody ClientDTO clientDto){
 
         Client client = null;

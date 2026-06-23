@@ -3,10 +3,10 @@ spring:
     name: ludotheque
 
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=LUDOTHEQUE_BD;encrypt=false;trustServerCertificate=true
-    username: sa
+    url: jdbc:postgresql://localhost:1433/LUDO_DB
+    username: postgres
     password: Pa$$w0rd
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
 
   jpa:
     show-sql: true
@@ -15,3 +15,6 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+
+server:
+  port: 8081

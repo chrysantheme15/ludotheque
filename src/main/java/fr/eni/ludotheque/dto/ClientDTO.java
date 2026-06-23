@@ -1,6 +1,5 @@
 package fr.eni.ludotheque.dto;
 
-import fr.eni.ludotheque.bo.Adresse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
