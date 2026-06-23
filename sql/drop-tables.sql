@@ -1,9 +1,15 @@
-begin
-drop table locations;
-drop table clients;
-drop table adresses;
-drop table exemplaire;
-drop table jeux_genres;
-drop table genres;
-drop table jeux;
-end;
+CREATE OR REPLACE PROCEDURE init_suppression_tables()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+
+DROP TABLE IF EXISTS locations CASCADE;
+DROP TABLE IF EXISTS clients CASCADE;
+DROP TABLE IF EXISTS adresses CASCADE;
+DROP TABLE IF EXISTS exemplaires CASCADE;
+DROP TABLE IF EXISTS jeux_genres CASCADE;
+DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS jeux CASCADE;
+
+END;
+$$;

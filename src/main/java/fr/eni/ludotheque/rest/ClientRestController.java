@@ -34,4 +34,43 @@ public class ClientRestController {
         return  ResponseEntity.status(HttpStatus.CREATED).body(client);
 
     }
+    @DeleteMapping("/{noClient}")
+    public ResponseEntity<?> supprimerClient(@PathVariable Integer noClient) {
+
+        System.out.println("CONTROLLER : suppression de " + noClient);
+
+        try {
+            clientService.supprimer(noClient);
+
+            System.out.println("CONTROLLER : suppression OK");
+
+            return ResponseEntity.noContent().build();
+
+        } catch (Exception e) {
+
+            System.out.println("ERREUR : " + e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{noClient}")
+    public ResponseEntity<?> modifierClient(
+            @PathVariable Integer noClient,
+            @RequestBody Client client) {
+
+        try {
+
+            Client clientModifie = clientService.modifier(noClient, client);
+
+            return ResponseEntity.ok(clientModifie);
+
+        } catch (Exception e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
 }

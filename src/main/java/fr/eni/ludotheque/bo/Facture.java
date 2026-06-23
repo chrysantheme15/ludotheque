@@ -1,5 +1,6 @@
 package fr.eni.ludotheque.bo;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NonNull;

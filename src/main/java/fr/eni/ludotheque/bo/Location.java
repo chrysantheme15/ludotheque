@@ -26,12 +26,12 @@ public class Location {
 
 	@EqualsAndHashCode.Include
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="noClient")
+	@JoinColumn(name="no_client")
 	@NonNull private Client client;
 
 	@EqualsAndHashCode.Include
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="noExemplaire")
+	@JoinColumn(name="no_exemplaire")
 	@NonNull private Exemplaire exemplaire;
 	
 

@@ -30,7 +30,7 @@ public class LocationServiceTestIntegration {
         //Arrange
         Client client = clientRepository.findByNoTelephone("123456789");
 
-        LocationDTO locationDTO = new LocationDTO(client.getNo_client(), "6666666666666");
+        LocationDTO locationDTO = new LocationDTO(client.getNoClient(), "6666666666666");
 
         //Act
         Location location = locationService.ajouterLocation(locationDTO);
