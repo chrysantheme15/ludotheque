@@ -36,7 +36,7 @@ public class JeuServiceTestIntegration {
 		Jeu jeu = new Jeu("50 missions", "refMissions", 10.2f);
 		jeu.setDescription("Description de 50 missions");
 		jeu.setDuree(20);
-		jeu.setAge_min(8);
+		jeu.setAgeMin(8);
 		jeu.addGenre(new Genre(2, ""));
 		jeu.addGenre(new Genre(4, ""));
 
