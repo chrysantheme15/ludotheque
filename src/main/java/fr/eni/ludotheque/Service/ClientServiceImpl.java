@@ -1,8 +1,14 @@
 package fr.eni.ludotheque.Service;
 
+import fr.eni.ludotheque.BO.Adresse;
 import fr.eni.ludotheque.BO.Client;
 import fr.eni.ludotheque.DAL.ClientRepository;
+import fr.eni.ludotheque.dto.ClientDTO;
+import fr.eni.ludotheque.exceptions.BusinessException;
+import fr.eni.ludotheque.exceptions.EmailClientAlreadyExistException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +24,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void ajouterClient(Client client) {
-        clientRepository.save(client);
+    public Client ajouterClient(ClientDTO clientDto) {
+        Client client = new Client();
+        Adresse adresse = new Adresse();
+
+        BeanUtils.copyProperties(clientDto, client);
+        BeanUtils.copyProperties(clientDto, adresse);
+        client.setAdresse(adresse);
+        Client newClient = null;
+        try {
+            newClient = clientRepository.save(client);
+        }catch(DataIntegrityViolationException ex) {
+            throw new EmailClientAlreadyExistException();
+        }
+
+        return newClient;
     }
 
     @Override

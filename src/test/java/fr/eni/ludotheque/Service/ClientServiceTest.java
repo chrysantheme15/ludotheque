@@ -3,6 +3,7 @@ package fr.eni.ludotheque.Service;
 import fr.eni.ludotheque.BO.Adresse;
 import fr.eni.ludotheque.BO.Client;
 import fr.eni.ludotheque.DAL.ClientRepository;
+import fr.eni.ludotheque.exceptions.BusinessException;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
