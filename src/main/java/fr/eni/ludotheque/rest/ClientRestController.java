@@ -109,4 +109,20 @@ public class ClientRestController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{noClient}")
+    public ResponseEntity<List<Client>> trouverClientParId(
+            @PathVariable Integer noClient) {
+
+        try {
+            clientService.trouverClientParId(noClient);
+
+            return ResponseEntity.ok().build();
+
+        } catch (DataNotFound e) {
+
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
