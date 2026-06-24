@@ -17,7 +17,7 @@ public class Jeu {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="no_jeu")
 	private Integer noJeu;
-	
+
 	@Column( length=50, nullable=false)
 	@NonNull
 	private String titre;
@@ -25,29 +25,34 @@ public class Jeu {
 	@EqualsAndHashCode.Include
 	@Column(length=13, nullable=false, unique=true)
 	@NonNull private String reference;
-	
+
 	@Column()
 	private int ageMin;
-	
+
 	@Column()
 	private String description;
 
 	private int duree;
-	
+
 	@Column(nullable=false)
 	@NonNull
 	private Float tarifJour;
 
 	@Transient
 	private int nbExemplairesDisponibles;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "JEUX_GENRES",
 		joinColumns = @JoinColumn(name="no_jeu"),
 		inverseJoinColumns = @JoinColumn(name="no_genre"))
 	private List<Genre> genres = new ArrayList<>();
-	
+
 	public void addGenre(Genre g) {
 		genres.add(g);
 	}
+
+	@OneToMany(mappedBy = "jeu",
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY)
+	private List<Exemplaire> exemplaires = new ArrayList<>();
 }

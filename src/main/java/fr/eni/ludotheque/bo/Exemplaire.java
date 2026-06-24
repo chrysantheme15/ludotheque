@@ -21,6 +21,7 @@ public class Exemplaire {
 	private boolean louable=true;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+
 	@JoinColumn(name="no_jeu", referencedColumnName = "no_jeu")
 	@NonNull
 	private Jeu jeu;

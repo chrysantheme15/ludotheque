@@ -86,10 +86,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client trouverClientParId(Integer id) {
-        Optional<Client> optClient = clientRepository.findById(id);
+    public Client trouverClientParId(Integer noClient) {
+        Optional<Client> optClient = clientRepository.findById(noClient);
         if(optClient.isEmpty()) {
-            throw new DataNotFound("Client", id);
+            throw new DataNotFound("Client", noClient);
         }
         return optClient.get();
     }

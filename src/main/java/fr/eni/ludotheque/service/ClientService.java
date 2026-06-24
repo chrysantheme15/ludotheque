@@ -22,7 +22,7 @@ public interface ClientService {
     //Modification complète d'un client
     public Client modifierClient(Integer noClient, ClientDTO clientDto);
 
-    public Client trouverClientParId(Integer id);
+    public Client trouverClientParId(Integer noClient);
 
     public Client modifierAdresse(Integer no_Client, AdresseDTO adresseDto) ;
 
