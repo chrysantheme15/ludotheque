@@ -15,7 +15,7 @@ import java.util.List;
 public class Jeu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="noJeu")
+	@Column(name="no_jeu")
 	private Integer noJeu;
 	
 	@Column( length=50, nullable=false)
@@ -26,10 +26,10 @@ public class Jeu {
 	@Column(length=13, nullable=false, unique=true)
 	@NonNull private String reference;
 	
-	@Column(nullable=true)
+	@Column()
 	private int ageMin;
 	
-	@Column( nullable=true)
+	@Column()
 	private String description;
 
 	private int duree;
