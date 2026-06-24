@@ -6,6 +6,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface LocationRepository extends JpaRepository<Location, Integer>{
-    @Query("SELECT l FROM Location l WHERE l.exemplaire.codebarre = :codebarre")
-    Location findLocationByCodebarreWithJeu(@Param("codebarre") String codebarre);
+    @Query("""
+        SELECT l
+        FROM Location l
+        JOIN FETCH l.exemplaire e
+        JOIN FETCH e.jeu
+        WHERE e.codebarre = :codebarre
+    """)
+    Location findLocationByCodebarreWithJeu(
+            @Param("codebarre") String codebarre
+    );
+
+    @Query("""
+    SELECT COUNT(l) > 0
+    FROM Location l
+    WHERE l.exemplaire.noExemplaire = :noExemplaire
+    AND l.dateRetour IS NULL
+    """)
+    boolean exemplaireDejaLouee(
+            @Param("noExemplaire") Integer noExemplaire
+    );
 }

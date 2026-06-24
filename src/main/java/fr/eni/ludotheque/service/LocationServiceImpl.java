@@ -9,6 +9,7 @@ import fr.eni.ludotheque.dal.FactureRepository;
 import fr.eni.ludotheque.dal.JeuRepository;
 import fr.eni.ludotheque.dal.LocationRepository;
 import fr.eni.ludotheque.dto.LocationDTO;
+import fr.eni.ludotheque.exceptions.DataNotFound;
 import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,29 @@ public class LocationServiceImpl implements LocationService{
 	public Location ajouterLocation(LocationDTO locationDto  ) {
 		//Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
 		Exemplaire exemplaire = exemplaireRepository.findByCodebarre(locationDto.getCodebarre());
+		if (exemplaire == null) {
+			throw new DataNotFound(
+					"Exemplaire",
+					locationDto.getCodebarre()
+			);
+		}
+
+		if (!exemplaire.isLouable()) {
+			throw new RuntimeException(
+					"Exemplaire non louable"
+			);
+		}
+
+		boolean dejaLoue =
+				locationRepository.exemplaireDejaLouee(
+						exemplaire.getNoExemplaire()
+				);
+
+		if(dejaLoue) {
+			throw new RuntimeException(
+					"Exemplaire déjà loué"
+			);
+		}
 		Client client = new Client();
 		client.setNoClient(locationDto.getNoClient());
 					
