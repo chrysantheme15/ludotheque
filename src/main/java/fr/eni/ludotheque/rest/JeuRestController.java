@@ -25,6 +25,7 @@ public class JeuRestController {
         this.jeuService = jeuService;
     }
 
+
     @GetMapping
     public ResponseEntity<List<Jeu>> listeJeuxCatalogue(
             @RequestParam(required = false) String filtreTitre) {
