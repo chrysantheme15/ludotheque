@@ -58,11 +58,11 @@ public class ClientRestController {
     @PutMapping("/{noClient}")
     public ResponseEntity<?> modifierClient(
             @PathVariable Integer noClient,
-            @RequestBody Client client) {
+            @RequestBody ClientDTO clientDto) {
 
         try {
 
-            Client clientModifie = clientService.modifier(noClient, client);
+            Client clientModifie = clientService.modifierClient(noClient, clientDto);
 
             return ResponseEntity.ok(clientModifie);
 

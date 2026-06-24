@@ -28,10 +28,13 @@ public class ClientServiceImpl implements ClientService {
     private AdresseRepository adresseRepository;
 
     @Autowired
-    public  ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    public ClientServiceImpl(
+            ClientRepository clientRepository,
+            AdresseRepository adresseRepository) {
 
+        this.clientRepository = clientRepository;
+        this.adresseRepository = adresseRepository;
+    }
     @Override
     public Client ajouterClient(ClientDTO clientDto) {
         Client client = new Client();
@@ -55,20 +58,21 @@ public class ClientServiceImpl implements ClientService {
         return List.of();
     }
 
-
     @Override
     public Client modifierClient(Integer noClient, ClientDTO clientDto) {
-        //Client client = clientRepository.findById(noClient).orElseThrow(()->new DataNotFound("Client", noClient));
+
         Client client = new Client();
         client.setNoClient(noClient);
         client.setAdresse(new Adresse());
+
         BeanUtils.copyProperties(clientDto, client);
         BeanUtils.copyProperties(clientDto, client.getAdresse());
+
         Client clientBD = null;
+
         try {
             clientBD = clientRepository.save(client);
-        } catch (OptimisticLockingFailureException e) {//thrown if entity is assumed to be present but does not exists in db
-            //e.printStackTrace();
+        } catch (OptimisticLockingFailureException e) {
             throw new DataNotFound("Client", noClient);
         }
 
@@ -93,6 +97,15 @@ public class ClientServiceImpl implements ClientService {
         adresseRepository.save(client.getAdresse());
 
         return client;
+    }
+
+    @Override
+    public void supprimer(Integer noClient ) {
+        Client client = clientRepository.findById(noClient)
+
+                .orElseThrow(() -> new RuntimeException("Client introuvable"));
+
+        clientRepository.delete(client);
     }
 }
 

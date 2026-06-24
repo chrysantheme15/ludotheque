@@ -25,4 +25,7 @@ public interface ClientService {
     public Client trouverClientParId(Integer id);
 
     public Client modifierAdresse(Integer no_Client, AdresseDTO adresseDto) ;
+
+    void supprimer(Integer noClient);
+
 }
