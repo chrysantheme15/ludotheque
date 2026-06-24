@@ -24,8 +24,7 @@ public class JeuServiceImpl implements JeuService{
 	public void ajouterJeu(Jeu jeu) {
 		
 		jeuRepository.save(jeu);
-		
-		
+
 	}
 
 
