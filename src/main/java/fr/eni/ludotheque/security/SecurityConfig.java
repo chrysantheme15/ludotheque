@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,15 +26,30 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth -> auth
                         // accès public
                         .requestMatchers(HttpMethod.GET, "/api/jeux")
                         .permitAll()
 
-                        // suppression réservée aux admins
-                        .requestMatchers(HttpMethod.DELETE, "/api/clients/**")
-                        .hasRole("ADMIN")
+                        // EMPLOYE et ADMIN
+                        .requestMatchers(HttpMethod.POST, "/api/clients")
+                        .hasAnyRole("EMPLOYE", "ADMIN")
 
+                        .requestMatchers(HttpMethod.DELETE, "/api/clients/**")
+                        .hasAnyRole("EMPLOYE", "ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/clients/**")
+                        .hasAnyRole("EMPLOYE", "ADMIN")
+
+                        .requestMatchers(HttpMethod.PATCH, "/api/clients/**")
+                        .hasAnyRole("EMPLOYE", "ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/api/clients/**")
+                        .hasAnyRole("EMPLOYE", "ADMIN")
                         // tout le reste nécessite une connexion
                         .anyRequest()
                         .authenticated()
