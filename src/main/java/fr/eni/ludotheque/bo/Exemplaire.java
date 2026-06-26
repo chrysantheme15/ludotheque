@@ -16,9 +16,9 @@ public class Exemplaire {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer noExemplaire;
 
-    @Column(length=13, nullable = false, unique = true)
+    @Column(name = "code_barre", length=13, nullable = false, unique = true)
     @NonNull
-    private String code_barre;
+    private String codeBarre;
 
     @Basic(optional = false)
     private boolean louable=true;
