@@ -7,52 +7,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
 @Entity
-@Table(name="JEUX")
+@Table(name= "Jeu")
 public class Jeu {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="no_jeu")
-	private Integer noJeu;
 
-	@Column( length=50, nullable=false)
-	@NonNull
-	private String titre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
+    @Column(name="no_jeu")
+    private int no_jeu;
 
-	@EqualsAndHashCode.Include
-	@Column(length=13, nullable=false, unique=true)
-	@NonNull private String reference;
+    @Column( nullable = false, length = 50)
+    private String titre;
 
-	@Column()
-	private int ageMin;
+    @Column( nullable = false, length = 13, unique = true)
+    private String reference;
 
-	@Column()
-	private String description;
+    @Column( nullable = false)
+    private int age_min;
 
-	private int duree;
+    @Column( nullable = false, length = 255)
+    private String description;
 
-	@Column(nullable=false)
-	@NonNull
-	private Float tarifJour;
+    @Column( nullable = false)
+    private int duree;
 
-	@Transient
-	private int nbExemplairesDisponibles;
+    @Column( nullable = false)
+    private int tarif_jour;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "JEUX_GENRES",
-		joinColumns = @JoinColumn(name="no_jeu"),
-		inverseJoinColumns = @JoinColumn(name="no_genre"))
-	private List<Genre> genres = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "Jeu_Genre",
+            joinColumns = @JoinColumn(name = "no_jeu"),
+            inverseJoinColumns = @JoinColumn(name = "no_genre")
+            )
+    private List<Genre> genres = new ArrayList<>();
 
-	public void addGenre(Genre g) {
-		genres.add(g);
-	}
-
-	@OneToMany(mappedBy = "jeu",
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
-	private List<Exemplaire> exemplaires = new ArrayList<>();
 }

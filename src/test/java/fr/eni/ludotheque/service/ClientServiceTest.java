@@ -1,156 +1,126 @@
 package fr.eni.ludotheque.service;
 
-//import static org.mockito.Mockito.doAnswer;
-
 import fr.eni.ludotheque.bo.Adresse;
 import fr.eni.ludotheque.bo.Client;
 import fr.eni.ludotheque.dal.ClientRepository;
-import fr.eni.ludotheque.dto.ClientDTO;
-import fr.eni.ludotheque.exceptions.DataNotFound;
+import fr.eni.ludotheque.exceptions.BusinessException;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ClientServiceTest {
-	
-	@Autowired
-	private ClientService clientService;
-	
-	@MockitoBean
-	private ClientRepository clientRepository;
-	
-	@Test
-	@DisplayName("Ajout d'un client cas positif")
-	public void testAjouterClientCasPositif() {
-		//Arrange
-		ClientDTO clientDto = new ClientDTO("n1", "p1", "e1", "tel1", "rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		Adresse adresse = new Adresse("rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		Client client = new Client("n1", "p1", "e1", adresse);
-		client.setNoTelephone("tel1");
-		client.setNoClient(999);
 
-		/*
-		org.mockito.Mockito.doAnswer((invocation) -> {
-			Client cli = invocation.getArgument(0);
-			cli.setNoClient(999);
-			return cli;
-						}).when(clientRepository).save(client);
-		 */
-		when(clientRepository.save(any(Client.class))).thenReturn(client);
+    @Autowired
+    ClientService clientService;
 
-		//Act
-		Client clientActual = clientService.ajouterClient(clientDto);
+    @Autowired
+    ClientRepository clientRepository;
 
-		//Assert
-		assertThat(clientActual).isNotNull();
-		assertThat(clientActual.getNoClient()).isNotNull();
-		assertThat(clientActual.getNoClient()).isEqualTo(999);
-		
-	}
+    @Test
+    void testCreationClient() {
+        //Arrange (Préparation du test)
+        Adresse adresse = new Adresse();
+        adresse.setRue("10 rue de Brest");
+        adresse.setCode_postal("29200");
+        adresse.setVille("Brest");
 
-	@Test
-	@DisplayName("Trouver un client par id cas id est connu")
-	public void testTrouverClientParIdCasIdConnu() {
-		//Arrange
-		Integer idClientRecherche = 99;
-		Adresse adresse = new Adresse("rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		Client clientATrouver = new Client("n1", "p1", "e1",  adresse);
-		clientATrouver.setNoTelephone("tel1");
-		when(clientRepository.findById(idClientRecherche)).thenReturn(Optional.of(clientATrouver));
+        Client client = new Client();
+        client.setNom("RAZAFI");
+        client.setPrenom("chrys");
+        client.setEmail("chrysrazafi@gmail.com");
+        client.setAdresse(adresse);
+        client.setNo_telephone("0123456789");
 
-		//Act
-		Client client = clientService.trouverClientParId(idClientRecherche);
+        //Act (Appel de la méthode à vérifier)
+        clientService.ajouterClient(client);
 
-		//Assert
-		assertThat(client).isEqualTo(clientATrouver);
+        //Assert (vérifications)
+        Client clientBD = clientRepository.findById(client.getNo_client()).orElse(null);
+        Assertions.assertNotNull(clientBD);
+        Assertions.assertEquals(client,  clientBD);
 
-	}
+    }
 
-	@Test
-	@DisplayName("Trouver un client par id cas id est inconnu-doit renvoyer une exception ")
-	public void testTrouverClientParIdCasIdIncconnu() {
-		//Arrange
-		Integer idClientRecherche = 99;
-		when(clientRepository.findById(idClientRecherche)).thenReturn(Optional.empty());
+    @Test
+    @DisplayName("Recherche des clients dont le nom commence par une chaîne")
+    @Transactional
+    public void TestFindByNomStartingWith(){
+        // AAA
+        // Arrange : preparation du test
+        Adresse adresse1 = new Adresse();
+        adresse1.setRue("rue de Palestine");
+        adresse1.setCode_postal("29000");
+        adresse1.setVille("Quimper");
 
-		//Act + Assert
-		assertThrows(DataNotFound.class, ()->clientService.trouverClientParId(idClientRecherche) );
-/*
-		try{
-			clientRepository.findById(idClientRecherche);
-			fail();
-		}catch(DataNotFound ex){
-*/
+        Adresse adresse2 = new Adresse();
+        adresse2.setRue("rue de Strasbourg");
+        adresse2.setCode_postal("29217");
+        adresse2.setVille("Plougonvelin");
 
+        Client client1 = new Client();
+        client1.setNom("Durand");
+        client1.setPrenom("Clodette");
+        client1.setEmail( "clodettedurand@mail.com");
+        client1.setAdresse( adresse1);
+        client1.setNo_telephone("0123456789");
 
-	}
+        Client client2 = new Client();
+        client2.setNom("Dédé");
+        client2.setPrenom("François");
+        client2.setEmail("francoisdede@mail.com");
+        client2.setAdresse(adresse2);
+        client2.setNo_telephone("0891234567");
 
-	@Test
-	@DisplayName("Trouver les clients dont le nom commence par")
-	public void testTrouverClientsDontLeNomCommencePar() {
-		//Arrange
-		String nom = "DUP";
-		Adresse adresse = new Adresse("rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		Client clientATrouver = new Client("DUPIEUX", "Quentin", "e1",  adresse);
-		clientATrouver.setNoTelephone("tel1");
-		Adresse adresse2 = new Adresse("rue 2", "44860", "Saint Aignan Grand Lieu");
-		Client clientATrouver2 = new Client("DUPONT", "Jacques", "e2", adresse2);
-		clientATrouver2.setNoTelephone("tel2");
+        //Act
+        clientRepository.save(client1);
+        clientRepository.save(client2);
 
-		List<Client> listeClients = new ArrayList<>();
-		listeClients.add(clientATrouver);
-		listeClients.add(clientATrouver2);
-		when(clientRepository.findByNomStartsWith(nom)).thenReturn(listeClients);
-		
-		//Act
-		List<Client> clients = clientService.trouverClientsParNom(nom);
-		
-		//Assert
-		assertThat(clients).hasSize(2);
-		
-	}
+        //Assert
+        List<Client> resultats  = clientRepository.findByNomStartingWith("D");
+        assertThat(resultats).hasSize(2);
+        assertThat(resultats)
+                .extracting(Client::getNom)
+                .contains("Durand", "Dédé");
+    }
 
+    @Test
+    @DisplayName("Les informations du client et de son adresse sont modifiées")
+    public void testModifierClient() throws BusinessException {
+        // Arrange
+        Adresse adresse = new Adresse();
+        adresse.setRue("Rue des lacs");
+        adresse.setCode_postal("29200");
+        adresse.setVille("Brest");
 
+        Client client = new Client();
+        client.setNom("Durand");
+        client.setPrenom("Paul");
+        client.setEmail("paul@mail.com");
+        client.setNo_telephone("0123456789");
+        client.setAdresse(adresse);
 
-	/*
-	@Test
-	@DisplayName("Test modification complète client")
-	//@Transactional
-	public void testModifierClient() {
-		//Arrange 
-		Adresse adresse = new Adresse("rue des Cormorans", "44860", "Saint Aignan Grand Lieu");
-		Client client = new Client("nX", "pX", "eX", "telX", adresse);
-		org.mockito.Mockito.doAnswer((invocation) -> {
-			Client cli = invocation.getArgument(0);
-			cli.setNoClient(999);
-			return cli;
-						}).when(clientRepository).save(client);		
-		clientService.ajouterClient(client);
+        Client clientBD = clientRepository.save(client);
 
-		client.setEmail("bob@free.fr");
-		//Act
-		clientService.modifierClient(client);
-		
-		//Assert
-		Client client2 = clientService.trouverClientParId(client.getNoClient());
-		assertThat(client2.getEmail()).isEqualTo(client.getEmail());
-	}
-	*/
-	
+        // Act
+        clientBD.setNom("Dupont");
+        clientBD.getAdresse().setVille("Quimper");
+
+        clientService.modifierClient(clientBD);
+
+        // Assert
+        Client clientModifie =
+                clientRepository.findById(clientBD.getNo_client()).orElse(null);
+        assertThat(clientModifie).isNotNull();
+        assertThat(clientModifie.getNom()).isEqualTo("Dupont");
+        assertThat(clientModifie.getAdresse().getVille()).isEqualTo("Quimper");
+    }
 
 }
-
-
-
