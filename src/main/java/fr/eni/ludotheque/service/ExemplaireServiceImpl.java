@@ -20,7 +20,7 @@ public class ExemplaireServiceImpl implements ExemplaireService{
 
     @Override
     public Exemplaire trouverParCodeBarre(String codeBarre) {
-        Exemplaire exemplaire = exemplaireRepository.findByCodebarre(codeBarre);
+        Exemplaire exemplaire = exemplaireRepository.findByCodeBarre(codeBarre);
 
         if (exemplaire == null) {
             throw new DataNotFound("Exemplaire", codeBarre);

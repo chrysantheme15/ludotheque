@@ -9,7 +9,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
 
     //trouver les clients dont le nom commence par la chaine fournie
-    List<Client> findByNomStartingWith(String nom);
+    List<Client> findByNomStartsWith(String nom);
 
 
 }

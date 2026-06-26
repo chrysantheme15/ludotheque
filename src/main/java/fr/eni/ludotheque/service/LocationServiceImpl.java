@@ -38,9 +38,11 @@ public class LocationServiceImpl implements LocationService{
 
 
 	@Override
-	public Location ajouterLocation(LocationDTO locationDto  ) {
-		//Exemplaire exemplaire = exemplaireRepository.findByCodebarreWithJeu(locationDto.getCodebarre());
-		Exemplaire exemplaire = exemplaireRepository.findByCodebarre(locationDto.getCodebarre());
+	public Location ajouterLocation(LocationDTO locationDto) {
+
+		Exemplaire exemplaire =
+				exemplaireRepository.findByCodeBarre(locationDto.getCodebarre());
+
 		if (exemplaire == null) {
 			throw new DataNotFound(
 					"Exemplaire",
@@ -49,9 +51,7 @@ public class LocationServiceImpl implements LocationService{
 		}
 
 		if (!exemplaire.isLouable()) {
-			throw new RuntimeException(
-					"Exemplaire non louable"
-			);
+			throw new RuntimeException("Exemplaire non louable");
 		}
 
 		boolean dejaLoue =
@@ -59,20 +59,22 @@ public class LocationServiceImpl implements LocationService{
 						exemplaire.getNoExemplaire()
 				);
 
-		if(dejaLoue) {
-			throw new RuntimeException(
-					"Exemplaire déjà loué"
-			);
+		if (dejaLoue) {
+			throw new RuntimeException("Exemplaire déjà loué");
 		}
+
 		Client client = new Client();
 		client.setNoClient(locationDto.getNoClient());
-					
-		Location location = new Location(LocalDateTime.now(),client, exemplaire );
-		Float tarifJour = jeuRepository.findTarifJour(exemplaire.getJeu().getNoJeu());
+
+		Location location =
+				new Location(LocalDateTime.now(), client, exemplaire);
+
+		Float tarifJour =
+				jeuRepository.findTarifJour(exemplaire.getJeu().getNoJeu());
+
 		location.setTarifJour(tarifJour);
-		Location newLoc = locationRepository.save(location);
-		
-		return newLoc;
+
+		return locationRepository.save(location);
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class LocationServiceImpl implements LocationService{
 		Location location = null;
 		float prix = 0;
 		for(String codebarre : codebarres) {
-			location = locationRepository.findLocationByCodebarreWithJeu(codebarre);
+			location = locationRepository.findLocationByCodeBarreWithJeu(codebarre);
 			location.setDateRetour(LocalDateTime.now());
 			facture.addLocation(location);
 			//TODO : save date retour 
