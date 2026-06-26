@@ -1,33 +1,28 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="GENRES")
+@Table(name= "Genre")
 public class Genre {
-	@Id
-	@NonNull
-	private Integer noGenre;
 
-	@NonNull private String libelle;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
+    @Column(name = "no_genre")
+    private int no_genre;
 
-	@ManyToMany(mappedBy = "genres")
-	private Collection<Jeu> jeus;
+    @Column( nullable = false, length = 255)
+    private String libelle;
 
-	public Collection<Jeu> getJeus() {
-		return jeus;
-	}
+    @ManyToMany(mappedBy = "genres")
+    private List<Jeu> jeux= new ArrayList<>();
 
-	public void setJeus(Collection<Jeu> jeus) {
-		this.jeus = jeus;
-	}
 }

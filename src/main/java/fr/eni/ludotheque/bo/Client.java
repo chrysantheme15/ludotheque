@@ -1,44 +1,33 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="CLIENTS")
 public class Client {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Exclude
-	private Integer noClient;
-	
-	@Column(length = 50, nullable = false)
-	@NonNull private String nom;
-	
-	@Column(length = 50, nullable = false)
-	@NonNull private String prenom;
-	
-	@Column(length = 50, nullable = false, unique = true)
-	@NonNull private String email;
-	
-	@Column(length = 15, nullable = false)
-	private String noTelephone;
 
-	@NonNull
-	@OneToOne(cascade = CascadeType.ALL,
-			orphanRemoval = true, optional = false,
-			fetch = FetchType.EAGER)
-	@JoinColumn(name = "no_adresse")
-	private Adresse adresse;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
+    private Integer noClient;
+
+    @Column(nullable = false, length = 50)
+    private String nom;
+
+    @Column(nullable = false, length = 50)
+    private String prenom;
+
+    @Column(unique = true, nullable = false, length = 50)
+    private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "no_adresse")
+    private Adresse adresse;
+
+    @Column( nullable = false, length = 10)
+    private String no_telephone;
+
 }
